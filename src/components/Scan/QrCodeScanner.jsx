@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { QrReader } from 'react-qr-reader';
 import s from './qrCodeScanner.module.css';
-
 import { SCAN_DATA } from '../../constants';
 
 export const QrCodeScanner = () => {
@@ -12,10 +11,12 @@ export const QrCodeScanner = () => {
 
         const prevData = JSON.parse(localStorage.getItem(SCAN_DATA) || '[]');
 
-        if (prevData.includes(result.text)) return;
+        if (prevData.includes(result.text)) {
+            setScanned("Этот QR-код уже был отсканирован: " + result.text);
+            return;
+        }
 
         setScanned(result.text);
-
         localStorage.setItem(
             SCAN_DATA,
             JSON.stringify([...prevData, result.text])
@@ -24,14 +25,28 @@ export const QrCodeScanner = () => {
 
     return (
         <div className={s.container}>
-            <QrReader
-                constraints={{ facingMode: 'environment' }}
-                scanDelay={1000}
-                onResult={scanHandler}
-                containerStyle={{ width: '500px' }}
-            />
+            <h1 className={s.title}>Сканер QR-кода</h1>
+            
+            <div className={s.scannerWrapper}>
+                <QrReader
+                    constraints={{ facingMode: 'environment' }}
+                    scanDelay={500}
+                    onResult={scanHandler}
+                />
+            </div>
         
-            <p className={s.result}>{scanned}</p>
+            {scanned && (
+                <div className={s.result}>
+                    {scanned.startsWith("Этот QR-код уже был") ? (
+                        <p style={{ color: 'var(--danger)' }}>{scanned}</p>
+                    ) : (
+                        <>
+                            <p>Успешно отсканировано:</p>
+                            <p>{scanned}</p>
+                        </>
+                    )}
+                </div>
+            )}
         </div>
     );
 };

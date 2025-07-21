@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
-
 import { GENERATE_DATA } from '../../constants';
-
 import s from './qrCodeGenerator.module.css';
 
 export const QrCodeGenerator = () => {
@@ -10,13 +8,11 @@ export const QrCodeGenerator = () => {
     const [result, setResult] = useState('');
 
     const onClickHandler = () => {
+        if (!value.trim()) return;
+        
         const prevData = JSON.parse(localStorage.getItem(GENERATE_DATA) || '[]');
-
-        localStorage.setItem(
-            GENERATE_DATA,
-            JSON.stringify([...prevData, value])
-        );
-
+        const newData = [...prevData, value];
+        localStorage.setItem(GENERATE_DATA, JSON.stringify(newData));
         setResult(value);
         setValue('');
     };
@@ -28,20 +24,35 @@ export const QrCodeGenerator = () => {
 
     return (
         <div className={s.container}>
-            <input
-                type="text"
-                value={value}
-                placeholder="Введите текст..."
-                onChange={onChangeHandler}
-                className={s.input}
-            />
-            <button type="button" className={s.button} onClick={onClickHandler}>
-                Сгенерировать QR
-            </button>
+            <h1 className={s.title}>Генератор QR-кода</h1>
+            
+            <div className={s.form}>
+                <input
+                    type="text"
+                    value={value}
+                    placeholder="Введите текст или URL..."
+                    onChange={onChangeHandler}
+                    className={s.input}
+                />
+                <button 
+                    type="button" 
+                    className={s.button} 
+                    onClick={onClickHandler}
+                    disabled={!value.trim()}
+                >
+                    Сгенерировать QR-код
+                </button>
+            </div>
 
-            {result !== '' && (
+            {result && (
                 <div className={s.qrWrapper}>
-                    <QRCodeSVG value={result} size={200} />
+                    <p className={s.qrText}>{result}</p>
+                    <QRCodeSVG 
+                        value={result} 
+                        size={200} 
+                        level="H"
+                        includeMargin
+                    />
                 </div> 
             )}
         </div>
