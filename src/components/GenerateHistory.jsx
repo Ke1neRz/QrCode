@@ -3,7 +3,7 @@ import { GENERATE_DATA } from '../constants';
 import s from './history.module.css';
 
 export const GenerateHistory = () => {
-    const data = JSON.parse(localStorage.getItem(GENERATE_DATA) || []);
+    const data = JSON.parse(localStorage.getItem(GENERATE_DATA) || '[]');
 
     return (
         <div className={s.container}>
