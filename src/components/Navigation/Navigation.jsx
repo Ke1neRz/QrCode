@@ -7,7 +7,7 @@ export const Navigation = () => {
             <ul className={s.list}>
                 <li>
                     <NavLink 
-                        to="/qr-code/generate" 
+                        to="/QrCode/generate" 
                         className={({ isActive }) => 
                             isActive ? `${s.link} ${s.active}` : s.link
                         }
@@ -17,7 +17,7 @@ export const Navigation = () => {
                 </li>
                 <li>
                     <NavLink 
-                        to="/qr-code/scan" 
+                        to="/QrCode/scan" 
                         className={({ isActive }) => 
                             isActive ? `${s.link} ${s.active}` : s.link
                         }
@@ -27,7 +27,7 @@ export const Navigation = () => {
                 </li>
                 <li>
                     <NavLink 
-                        to="/qr-code/generateHistory" 
+                        to="/QrCode/generateHistory" 
                         className={({ isActive }) => 
                             isActive ? `${s.link} ${s.active}` : s.link
                         }
@@ -37,7 +37,7 @@ export const Navigation = () => {
                 </li>
                 <li>
                     <NavLink 
-                        to="/qr-code/scanHistory" 
+                        to="/QrCode/scanHistory" 
                         className={({ isActive }) => 
                             isActive ? `${s.link} ${s.active}` : s.link
                         }
